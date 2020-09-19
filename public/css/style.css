@@ -1,0 +1,307 @@
+@font-face {
+    font-family: Poppins-Regular;
+    src: url('../fonts/poppins/Poppins-Regular.ttf');
+}
+
+@font-face {
+    font-family: Poppins-Bold;
+    src: url('../fonts/poppins/Poppins-Bold.ttf');
+}
+
+@font-face {
+    font-family: Poppins-Medium;
+    src: url('../fonts/poppins/Poppins-Medium.ttf');
+}
+
+@font-face {
+    font-family: Montserrat-Bold;
+    src: url('../fonts/montserrat/Montserrat-Bold.ttf');
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background-color: #131317;
+    font-family: Poppins-Regular;
+}
+
+.limiter {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.container-login {
+    width: 100%;
+    min-height: 100vh;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+.wrap-login {
+    width: 960px;
+    background: #0d0e12;
+    border-radius: 10px;
+    overflow: hidden;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 60px 50px 80px 50px;
+}
+
+
+/*------------------------------------------------------------------
+  [  ]*/
+
+.login-pic {
+    width: 45%;
+    margin-right: 40px;
+}
+
+.login-pic img {
+    max-width: 100%;
+}
+
+.brand {
+    font-family: Poppins-Bold;
+}
+
+
+/*------------------------------------------------------------------
+  [  ]*/
+
+.login-form {
+    width: 290px;
+}
+
+
+/* Input */
+
+.wrap-input {
+    position: relative;
+    width: 100%;
+    z-index: 1;
+    margin-bottom: 10px;
+}
+
+.input {
+    font-family: Poppins-Medium;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #aaaaaa;
+    display: block;
+    width: 100%;
+    background: #131317;
+    height: 50px;
+    border-radius: 25px;
+    padding: 0px 68px 0 68px;
+}
+
+
+/*T R B L */
+
+
+/*------------------------------------------------------------------
+  [ Focus ]*/
+
+.focus-input {
+    display: block;
+    position: absolute;
+    border-radius: 25px;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0px 0px 0px 0px;
+    color: #cb3234;
+}
+
+.input:focus+.focus-input {
+    -webkit-animation: anim-shadow 0.5s ease-in-out forwards;
+    animation: anim-shadow 0.5s ease-in-out forwards;
+}
+
+@-webkit-keyframes anim-shadow {
+    to {
+        box-shadow: 0px 0px 70px 25px;
+        opacity: 0;
+    }
+}
+
+@keyframes anim-shadow {
+    to {
+        box-shadow: 0px 0px 70px 25px;
+        opacity: 0;
+    }
+}
+
+.symbol-input {
+    font-size: 15px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    border-radius: 25px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding-left: 35px;
+    pointer-events: none;
+    color: #666666;
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+}
+
+.input-invalid {
+    font-size: 15px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    border-radius: 25px;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    padding-right: 0px;
+    pointer-events: none;
+    color: #0000;
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+}
+
+.input-valid {
+    font-size: 15px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    border-radius: 25px;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    padding-right: 0px;
+    pointer-events: none;
+    color: #0000;
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+}
+
+.invalid .shake {
+    animation: tiembla 0.5s;
+    -webkit-animation: tiembla 0.5s;
+}
+
+.valid .input-valid {
+    padding-right: 35px;
+    color: #4BBF73;
+}
+
+.invalid .input-invalid {
+    padding-right: 35px;
+    color: #cb3234;
+}
+
+.valid .input-invalid {
+    color: #0000;
+}
+
+.invalid .input-valid {
+    color: #0000;
+}
+
+.input:focus+.focus-input+.symbol-input {
+    color: #cb3234;
+    padding-left: 28px;
+}
+
+.input:focus~.input-invalid {
+    padding-right: 28px;
+}
+
+.input:focus~.input-valid {
+    padding-right: 28px;
+}
+
+@keyframes tiembla {
+    0% {
+        -webkit-transform: rotateZ(-5deg);
+    }
+    50% {
+        -webkit-transform: rotateZ( 0deg) scale(.8);
+    }
+    100% {
+        -webkit-transform: rotateZ( 5deg);
+    }
+}
+
+
+/*Responsive Up Left Down Right*/
+
+@media (max-width: 1024px) {
+    .wrap-login {
+        padding: 80px 0px 80px 80px;
+    }
+    .login-pic {
+        margin-right: 50px;
+        width: 35%;
+    }
+}
+
+@media (max-width: 992px) {
+    .wrap-login {
+        padding: 60px 50px 80px 50px;
+    }
+}
+
+@media (max-width: 768px) {
+    .wrap-login {
+        padding: 50px 50px 60px 50px;
+    }
+    .login-pic {
+        margin-right: 50px;
+        margin-top: 50px;
+        width: 35%;
+    }
+    .login-form {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .wrap-login {
+        padding: 50px 30px 70px 30px;
+        justify-content: center;
+    }
+    .login-pic {
+        margin-left: 0px;
+        margin-right: 0px;
+        width: 30%;
+    }
+}

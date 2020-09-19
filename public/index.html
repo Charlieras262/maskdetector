@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mask Detector</title>
+    <link rel="stylesheet" href="./css/bootstrap.css">
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="icon" type="image/x-icon" href="./images/mask.png">
+</head>
+
+<body>
+    <div class="limiter">
+        <div class="container-login">
+            <div class="wrap-login">
+                <div class="login-pic" data-tilt>
+                    <img src="./images/mask.png" alt="IMG">
+                </div>
+                <div class="mg-8 validate-form mt-2 col-md-6">
+                    <h2 class="text-info mb-5 text-center brand">Detector de Mascarillas</h2>
+                    <div id="email" class="form-group wrap-input">
+                        <input type="email" id="urlImg" class="form-control input" aria-describedby="emailHelp"
+                            placeholder="Ingrese la URL de la imagen">
+                        <span class="focus-input"></span>
+                        <span class="symbol-input">
+                            <i class="fa fa-link" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <button id="procesar" class="btn btn-info col-md-12">Analizar</button>
+                    <button id="limpiar" class="btn btn-dark col-md-12 mt-2" >Limpiar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="repDialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-info">Resultado</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="text-info"><i class="fa fa-times" aria-hidden="true"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="message"></p>
+                    <div class="login-pic" data-tilt>
+                        <img id="imagen" src="./images/mask.png" alt="IMG">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal" (click)="deleteStudent()">Cerrar</button>
+                    <button type="button" class="btn btn-dark" data-dismiss="modal" (click)="flushSelectedStudent()">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./js/popper.js"></script>
+    <script src="./js/jquery.js"></script>
+    <script src="./js/bootstrap.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+</html>
