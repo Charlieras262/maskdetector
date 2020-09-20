@@ -1,7 +1,7 @@
 const endPoint = "https://fcrecogn.cognitiveservices.azure.com/face/v1.0/detect?returnFaceAttributes=age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise"
 const key = "bf8f5105780a40beb335382cf250ba8f"
 
-const internalEndPont = "http://localhost:8080/api/empleados"
+const internalEndPont = "https://examenparcial2.azurewebsites.net/api/empleados"
 
 const p = document.getElementById("message")
 const t = document.getElementById("title")
@@ -63,31 +63,30 @@ document.getElementById("procesar").addEventListener("click", () => {
 
 document.getElementById("okBtn").addEventListener("click", () => {
     let urlImg = document.getElementById("urlImg").value
-    toBase64(urlImg, (base64) => {
-        fetch(internalEndPont, {
-            method: 'POST',
-            body: JSON.stringify({base64, day: $('#daySelect').val()}),
-            headers: {
-                "Content-type": "application/json"
-            }
-        })
-            .then(response => response.json())
-            .then(json => {
-                if(json.success){
-                    p.innerHTML = "Accesso Concedido"
-                    t.innerHTML = "Finalizado"
-                    document.getElementById("imagen").src = "./images/success.png"
-                } else {
-                    p.innerHTML = `Accesso Denegado. ${json.msg}`
-                    t.innerHTML = "Finalizado"
-                    document.getElementById("imagen").src = "./images/fail.png"
-                }
-                $("#ld").hide()
-                $("#daySelect").hide()
-                $("#daySelect").css({ opacity: 1.0 });
-                $("#imagen").show()
-            })
+
+    fetch(internalEndPont, {
+        method: 'POST',
+        body: JSON.stringify({ urlImg, day: $('#daySelect').val() }),
+        headers: {
+            "Content-type": "application/json"
+        }
     })
+        .then(response => response.json())
+        .then(json => {
+            if (json.success) {
+                p.innerHTML = "Accesso Concedido"
+                t.innerHTML = "Finalizado"
+                document.getElementById("imagen").src = "./images/success.png"
+            } else {
+                p.innerHTML = `Accesso Denegado. ${json.msg}`
+                t.innerHTML = "Finalizado"
+                document.getElementById("imagen").src = "./images/fail.png"
+            }
+            $("#ld").hide()
+            $("#daySelect").hide()
+            $("#daySelect").css({ opacity: 1.0 });
+            $("#imagen").show()
+        })
     p.innerHTML = "Por favor, Espere"
     t.innerHTML = "Validando"
 
@@ -96,17 +95,3 @@ document.getElementById("okBtn").addEventListener("click", () => {
     $("#imagen").hide()
     $("#daySelect").css({ opacity: 0.0 });
 })
-
-function toBase64(url, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-        var reader = new FileReader();
-        reader.onloadend = function () {
-            callback(reader.result);
-        }
-        reader.readAsDataURL(xhr.response);
-    };
-    xhr.open('GET', url);
-    xhr.responseType = 'blob';
-    xhr.send();
-}

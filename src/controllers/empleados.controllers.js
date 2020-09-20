@@ -1,5 +1,6 @@
-const connection = require("../db/connection")
-const sql = require("mssql");
+const connection = require("../db/connection");
+const imageToBase64 = require('image-to-base64');
+const sql = require('mssql');
 const asignationCTRL = {};
 
 asignationCTRL.getEmpleado = async (req, res) => {
@@ -10,7 +11,8 @@ asignationCTRL.getEmpleado = async (req, res) => {
 
 asignationCTRL.valEmpleado = async (req, res) => {
     const currentConnection = (await connection());
-    const respDB = await getDatoBiometricoByValor(currentConnection, req.body.base64)
+    const base64 = await imageToBase64(req.body.urlImg)
+    const respDB = await getDatoBiometricoByValor(currentConnection, base64)
     if (respDB.recordset.length > 0) {
         const datoBiometrico = respDB.recordset[0];
         const respEm = await getEmpleadoById(currentConnection, datoBiometrico.ID_EMPLEADO)
@@ -33,21 +35,19 @@ const getEmpleadoById = async (currentConnection, id) => await currentConnection
 
 const validarDatos = (day, empleado) => {
     const lastDPINumber = parseInt(empleado.DPI.toString().slice(empleado.DPI.length - 1))
-    switch (lastDPINumber) {
-        case 1: case 4: case 7:
-            return day == 'ln'
-        case 2: case 5: case 8:
-            return day == 'ma'
-        case 3: case 6: case 9:
-            return day == 'mi'
-        case 4: case 5: case 9: case 0:
-            return day == 'ju'
-        case 1: case 6: case 8: case 0:
-            return day == 'vi'
-        case 2: case 3: case 7:
-            return day == 'sa'
-        default:
-            return false;
-    }
+    if (lastDPINumber == 1 || lastDPINumber == 4 || lastDPINumber == 7)
+        if (day == 'ln') return true;
+    if (lastDPINumber == 2 || lastDPINumber == 5 || lastDPINumber == 8)
+        if (day == 'ma') return true;
+    if (lastDPINumber == 3 || lastDPINumber == 6 || lastDPINumber == 9)
+        if (day == 'mi') return true;
+    if (lastDPINumber == 4 || lastDPINumber == 5 || lastDPINumber == 9 || lastDPINumber == 0)
+        if (day == 'ju') return true;
+    if (lastDPINumber == 1 || lastDPINumber == 6 || lastDPINumber == 8 || lastDPINumber == 0)
+        if (day == 'vi') return true;
+    if (lastDPINumber == 2 || lastDPINumber == 3 || lastDPINumber == 7)
+        if (day == 'sa') return true;
+    return false;
 }
+
 module.exports = asignationCTRL;

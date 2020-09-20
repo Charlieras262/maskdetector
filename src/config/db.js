@@ -1,4 +1,4 @@
-module.exports = {
+/*module.exports = {
     "server": "DESKTOP-IDLATM5\\SQLEXPRESS",
     "user": "sqlserver_admin",
     "password": "120399",
@@ -7,4 +7,14 @@ module.exports = {
         "encrypt": true,
         "enableArithAbort": false
     }
-  }
+}*/
+
+module.exports = {
+    "server": "svcarlos.database.windows.net",
+    "user": "carlos_admin",
+    "password": "Charlyras262!",
+    "database": "DBCarlos",
+    "options": {
+        "encrypt": true,
+    }
+}
