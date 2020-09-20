@@ -1,14 +1,28 @@
 const endPoint = "https://fcrecogn.cognitiveservices.azure.com/face/v1.0/detect?returnFaceAttributes=age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise"
 const key = "bf8f5105780a40beb335382cf250ba8f"
 
+const internalEndPont = "http://localhost:8080/api/empleados"
+
+const p = document.getElementById("message")
+const t = document.getElementById("title")
+
 document.getElementById("limpiar").addEventListener("click", () => {
     document.getElementById("urlImg").value = ""
-    document.getElementById("imagen").src = "public/images/mask.png"
+    document.getElementById("imagen").src = "./images/mask.png"
 })
 
 document.getElementById("procesar").addEventListener("click", () => {
     let urlImg = document.getElementById("urlImg").value
     document.getElementById("imagen").src = urlImg
+    p.innerHTML = "Por favor, Espere"
+    t.innerHTML = "Procesando Imagen"
+    $("#repDialog").modal()
+    $("#daySelect").css({ opacity: 0.0 });
+    $("#footer").hide()
+    $("#imagen").hide()
+    $("#okBtn").hide()
+    $("#daySelect").show()
+
     fetch(endPoint, {
         method: 'POST',
         body: JSON.stringify({
@@ -21,34 +35,78 @@ document.getElementById("procesar").addEventListener("click", () => {
     })
         .then(response => response.json())
         .then(json => {
-            const p = document.getElementById("message")
             if (json.length > 0) {
                 const accesorio = json[0].faceAttributes.accessories.find(accesorio => accesorio.type == "mask")
                 if (accesorio) {
                     if (accesorio.confidence >= 0.8) {
-                        p.innerHTML = "Puede pasar. Si tiene mascarilla."
-                    } else p.innerHTML = "No puede pasar. No tiene mascarilla."
-                } else p.innerHTML = "No puede pasar. No tiene mascarilla."
-            } else p.innerHTML = "No se pudo detectar un rostro humano."
-            $("#repDialog").modal()
+                        p.innerHTML = "Se detecto mascarilla, seleccione el día actual para continuar."
+                        t.innerHTML = "Casi Listo"
+                        $("#daySelect").css({ opacity: 1.0 });
+                        $("#okBtn").show()
+                        $("#imagen").show()
+                    } else {
+                        p.innerHTML = "No puede pasar. No tiene mascarilla."
+                        t.innerHTML = "Error"
+                    }
+                } else {
+                    p.innerHTML = "No puede pasar. No tiene mascarilla."
+                    t.innerHTML = "Error"
+                }
+            } else {
+                p.innerHTML = "No puede pasar. No tiene mascarilla."
+                t.innerHTML = "Error"
+            }
+            $("#footer").show()
+            $("#ld").hide()
         })
 })
 
-const conectar = () => {
-    var connection = new ActiveXObject("ADODB.Connection");
+document.getElementById("okBtn").addEventListener("click", () => {
+    let urlImg = document.getElementById("urlImg").value
+    toBase64(urlImg, (base64) => {
+        fetch(internalEndPont, {
+            method: 'POST',
+            body: JSON.stringify({base64, day: $('#daySelect').val()}),
+            headers: {
+                "Content-type": "application/json"
+            }
+        })
+            .then(response => response.json())
+            .then(json => {
+                if(json.success){
+                    p.innerHTML = "Accesso Concedido"
+                    t.innerHTML = "Finalizado"
+                    document.getElementById("imagen").src = "./images/success.png"
+                } else {
+                    p.innerHTML = `Accesso Denegado. ${json.msg}`
+                    t.innerHTML = "Finalizado"
+                    document.getElementById("imagen").src = "./images/fail.png"
+                }
+                $("#ld").hide()
+                $("#daySelect").hide()
+                $("#daySelect").css({ opacity: 1.0 });
+                $("#imagen").show()
+            })
+    })
+    p.innerHTML = "Por favor, Espere"
+    t.innerHTML = "Validando"
 
-    var connectionstring = "Data Source=DESKTOP-IDLATM5\\SQLEXPRESS;Initial Catalog=SQLServer Database;User ID=sqlserver_admin;Password=120399;Provider=SQLOLEDB";
+    $("#ld").show()
+    $("#footer").hide()
+    $("#imagen").hide()
+    $("#daySelect").css({ opacity: 0.0 });
+})
 
-    connection.Open(connectionstring);
-    var rs = new ActiveXObject("ADODB.Recordset");
-
-    rs.Open("SELECT * FROM table", connection);
-    rs.MoveFirst
-    while (!rs.eof) {
-        console.log(rs.fields(1))
-        rs.movenext;
-    }
-
-    rs.close;
-    connection.close;
+function toBase64(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        var reader = new FileReader();
+        reader.onloadend = function () {
+            callback(reader.result);
+        }
+        reader.readAsDataURL(xhr.response);
+    };
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
 }

@@ -16,6 +16,9 @@ app.use(morgan('dev'))
 app.use(express.json())
 app.use(methodOverride('_method'));
 
+// Routes
+app.use('/api/empleados', require('./src/routes/empleados.routes'));
+
 // Index Route
 app.get('/', (req, res) => {
     res.send('invaild endpoint');
