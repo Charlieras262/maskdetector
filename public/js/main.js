@@ -1,7 +1,7 @@
 const endPoint = "https://fcrecogn.cognitiveservices.azure.com/face/v1.0/detect?returnFaceAttributes=age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise"
 const key = "bf8f5105780a40beb335382cf250ba8f"
 
-const internalEndPont = "https://examenparcial2.azurewebsites.net/api/empleados"
+const internalEndPont = "https://examenparcial2.azurewebsites.net/api/biodat"
 
 const p = document.getElementById("message")
 const t = document.getElementById("title")
