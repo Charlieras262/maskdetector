@@ -31,5 +31,5 @@ jobs:
       with:
         app-name: 'examenparcial2'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_2f89e948deb04151ba6346c3404f6b3e }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_7c463c656cbf4b97802ff48ca9d860b4 }}
         package: .
